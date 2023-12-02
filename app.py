@@ -14,7 +14,6 @@ async def on_startup(bot):
     from utils.set_bot_commands import set_default_commands
 
     await set_default_commands(bot)
-    # from utils.notify_admins import on_startup_notify
     logging.info("Бот запущен")
 
 

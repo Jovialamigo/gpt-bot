@@ -8,7 +8,7 @@ client = AsyncOpenAI(api_key=OPENAI_API_KEY)
 
 
 async def ask_chat(text: str, model: str = "gpt-3.5-turbo") -> str:
-    logging.info(f"Asking for: {text}")
+    logging.info(f"Asking {model} for: {text}")
     completion = await client.chat.completions.create(
         model=model,
         messages=[

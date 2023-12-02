@@ -29,3 +29,11 @@ image = client.images.generate(
 # %%
 image.data[0].url
 # %%
+stream = client.chat.completions.create(
+    model="gpt-4",
+    messages=[{"role": "user", "content": "Say this is a test"}],
+    stream=True,
+)
+for part in stream:
+    print(part.choices[0].delta.content or "")
+# %%
