@@ -1,14 +1,8 @@
-import logging
-import time
-from xml.sax.handler import property_lexical_handler
-
 from aiogram import F, Router, html, types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, URLInputFile
-from openai import AsyncOpenAI
 
-from funcs import chat
 from funcs.chat import ask_chat, generate_image
 from states import ChatState
 
@@ -239,7 +233,3 @@ async def image_gpt(message: types.Message, state: FSMContext):
 @router.message()
 async def type_not_chosen(message: types.Message):
     await message.answer("Выберите режим, нажав /chat")
-
-    # await state.update_data(photo=photo_id)
-    # data = await state.get_data()
-    # text = data.get("text")
