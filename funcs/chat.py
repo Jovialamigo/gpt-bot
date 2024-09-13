@@ -1,5 +1,4 @@
 import logging
-from typing import Tuple
 
 from openai import AsyncOpenAI
 
@@ -22,6 +21,7 @@ image_price = {
 gpt_price = {
     "gpt-3.5-turbo": 0.002,
     "gpt-4-1106-preview": 0.03,
+    "gpt-4-turbo": 0.03,
 }
 
 
@@ -47,7 +47,7 @@ async def ask_chat(text: str, model: str = "gpt-3.5-turbo"):
             },
         ],
     )
-    price = gpt_price.get(model) / 1000
+    price = gpt_price.get(model, 0) / 1000
     if price is None:
         price = 0
 
@@ -81,7 +81,7 @@ async def generate_image(text: str, size: str = "1024x1024", quality: str = "sta
         quality=quality,
     )
 
-    price = image_price.get(quality).get(size) * 100
+    price = image_price.get(quality).get(size, 0) * 100
     if price is None:
         price = 0
 

@@ -1,4 +1,4 @@
-from aiogram import F, Router, html, types
+from aiogram import F, Router, types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, URLInputFile
@@ -52,7 +52,7 @@ quality_dic = dict.fromkeys(quality_list, False)
 
 
 def emoji_converter(value: bool) -> str:
-    if value == True:
+    if value:
         res = "✅ "
     else:
         res = ""
@@ -65,20 +65,20 @@ async def ans_chat(message: types.Message):
 
 
 @router.callback_query(F.data == "chat")
-async def chat_call(call: types.CallbackQuery, state: FSMContext):
+async def chat_call_4(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(ChatState.chat)
     await call.message.edit_text(
-        text="💬 *Выбран режим текста GPT 3\.5*\n" "Введите запрос:\n ",
+        text="💬 *Выбран режим текста GPT4o mini*\n" "Введите запрос:\n ",
         parse_mode="MarkdownV2",
         reply_markup=kb,
     )
 
 
 @router.callback_query(F.data == "chat_4")
-async def chat_call(call: types.CallbackQuery, state: FSMContext):
+async def chat_call_3(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(ChatState.chat4)
     await call.message.edit_text(
-        text="🤖 *Выбран режим текста GPT 4*\n" "Введите запрос:\n ",
+        text="🤖 *Выбран режим текста GPT4o*\n" "Введите запрос:\n ",
         parse_mode="MarkdownV2",
         reply_markup=kb,
     )
@@ -170,7 +170,7 @@ async def quality_button(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(ChatState.image)
     await call.message.edit_text(
         text=(
-            f"🌁 *Выбран режим картинки*\nВведите описание:\n\(по возможности старайтесь пользоваться обычным качеством\)\n"
+            "🌁 *Выбран режим картинки*\nВведите описание:\n(по возможности старайтесь пользоваться обычным качеством)\n"
         ),
         parse_mode="MarkdownV2",
         reply_markup=kb,
@@ -183,7 +183,7 @@ async def gpt(message: types.Message):
     msg_id = msg.message_id
     chat_id = message.chat.id
     try:
-        ans, price = await ask_chat(text=message.text, model="gpt-3.5-turbo")
+        ans, price = await ask_chat(text=message.text, model="gpt-4o-mini")
         await message.bot.edit_message_text(
             text=ans,
             message_id=msg_id,
@@ -195,12 +195,12 @@ async def gpt(message: types.Message):
 
 
 @router.message(ChatState.chat4)
-async def gpt(message: types.Message):
+async def gpt4(message: types.Message):
     msg = await message.answer("Подождите...", parse_mode="Markdown")
     msg_id = msg.message_id
     chat_id = message.chat.id
     try:
-        ans, price = await ask_chat(text=message.text, model="gpt-4-1106-preview")
+        ans, price = await ask_chat(text=message.text, model="gpt-4o")
         await message.bot.edit_message_text(
             text=ans,
             message_id=msg_id,
